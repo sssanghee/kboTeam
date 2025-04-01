@@ -1,0 +1,87 @@
+package com.kbo.project.user.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.kbo.project.user.domain.UserInfo;
+import com.kbo.project.user.dto.UserDto;
+import com.kbo.project.user.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
+
+import com.kbo.project.common.*;
+import com.kbo.project.jwt.common.BadRequestException;
+import com.kbo.project.jwt.common.ResDTO;
+
+@Service
+public class UserService {
+	
+	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
+    PasswordEncoder passwordEncoder;
+
+	// 추후 구현, 사용 예정
+	@Autowired
+    JwtProvider jwtProvider;
+    
+	public boolean existIdCheck(String id) {
+		boolean existId = userRepository.existsById(id);
+		return existId;
+	}
+	
+    public void userSignUp(UserDto userDto) {
+        UserInfo user = new UserInfo();
+        String dateFormat = CommonUtils.getNow();
+        
+        user.setUserId(userDto.getUserId());
+        user.setUserName(userDto.getUserName());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setMateStat("1");
+        user.setFrsRgtDtm(dateFormat);
+        user.setLstAltDtm(dateFormat);
+        
+		userRepository.save(user);
+    }
+    
+    @Transactional
+    public ResponseEntity<?> login(UserInfo userInfo) {
+
+            // 존재 여부 검사를 필수로 하기 위해 Optional로 감싸준다.
+            // 이메일로 DB에서 유저를 찾은 후
+            Optional<UserInfo> memberEntityOptional = userRepository.findById(userInfo.getUserId());
+
+            // 유저가 존재하지 않으면 BadRequestException 발생
+            if (memberEntityOptional.isEmpty()) {
+                    throw new BadRequestException("존재하지 않는 유저입니다.");
+            }
+
+            // 유저가 존재하면 memberEntity 추출 후
+            UserInfo memberEntity = memberEntityOptional.get();
+
+            // passwordEncoder를 사용하여 패스워드가 일치하지 않는지 검사
+            if (!passwordEncoder.matches(userInfo.getPassword(), memberEntity.getPassword())) {
+                    // 패스워드가 일치하지 않으면 BadRequestException 발생
+                    throw new BadRequestException("패스워드가 일치하지 않습니다.");
+            }
+
+            // 패스워드가 일치하면 jwtProvider를 사용하여 accessToken, refreshToken 생성
+            String accessToken = jwtProvider.createToken(memberEntity, JwtTokenType.ACCESS_TOKEN);
+                    String refreshToken = jwtProvider.createToken(memberEntity, JwtTokenType.REFRESH_TOKEN);
+
+            // accessToken, refreshToken 을 JwtToken 객체에 담아서 반환
+            return new ResponseEntity<>(
+                    ResDTO.builder()
+                            .code(0)
+                            .message("로그인에 성공하였습니다.")
+                            .data(JwtToken.builder().accessToken(accessToken)
+                                    .refreshToken(refreshToken).build())
+                            .build(),
+                    HttpStatus.OK);
+
+		}
+}

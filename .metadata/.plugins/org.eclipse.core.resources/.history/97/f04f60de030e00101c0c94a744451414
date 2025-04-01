@@ -1,0 +1,47 @@
+package com.kbo.project.user;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.kbo.project.user.UserInfo;
+import com.kbo.project.user.UserService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api")
+public class UserController {
+	@Autowired
+	UserService userService;
+	
+	@GetMapping("/user/idCheck")
+	public ResponseEntity<?> existIdCheck(@RequestParam("id") String id) {
+		try {
+			boolean existId = userService.existIdCheck(id);
+			return new ResponseEntity<>(existId, HttpStatus.OK);
+		} catch(Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>("실패", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+    @PostMapping("/user/signup")
+    public ResponseEntity<String> signup(@Valid @RequestBody UserInfo userInfo) {
+        try {
+        	userService.userSignUp(userInfo);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch(Exception e) {
+        	System.out.println(e);
+        	return new ResponseEntity<>("실패", HttpStatus.BAD_REQUEST);
+        }
+
+    }
+}

@@ -1,0 +1,5 @@
+package com.kbo.project.security;
+
+public class SecurityConfig {
+
+}

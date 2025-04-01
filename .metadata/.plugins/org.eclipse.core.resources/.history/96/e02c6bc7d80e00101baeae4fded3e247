@@ -1,0 +1,83 @@
+package com.kbo.project.user.controller;
+
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.*;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.kbo.project.jwt.auth.JwtUtil;
+import com.kbo.project.user.dto.LoginReq;
+import com.kbo.project.user.dto.UserDto;
+import com.kbo.project.user.service.UserService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api")
+public class UserController {
+
+	UserService userService;
+	private final AuthenticationManager authenticationManager;
+	private final JwtUtil jwtUtil;
+    
+    @Autowired
+    public UserController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+    }
+
+//	@RequestParam("userId") String userId, @RequestParam("password") String password
+    @PostMapping("/user/login")
+    public ResponseEntity<String> login(@RequestBody LoginReq loginRequest) {
+        try {
+        	System.out.println(userId);
+        	System.out.println(password);
+        	
+            Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(loginRequest.getUserId(), loginRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(userId, password)
+            );
+            String token = jwtUtil.generateToken(authentication.getName());
+            System.out.println("성공");
+            return ResponseEntity.ok(token);
+        } catch (Exception e) {
+        	System.out.println("실패");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+        }
+    }
+    
+	@GetMapping("/user/idCheck")
+	public ResponseEntity<?> existIdCheck(@RequestParam("id") String id) {
+		try {
+			boolean existId = userService.existIdCheck(id);
+			return new ResponseEntity<>(existId, HttpStatus.OK);
+		} catch(Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>("실패", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+    @PostMapping("/user/signup")
+    public ResponseEntity<String> signup(@Valid @RequestBody UserDto userDto) {
+        try {
+        	userService.userSignUp(userDto);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch(Exception e) {
+        	System.out.println(e);
+        	return new ResponseEntity<>("실패", HttpStatus.BAD_REQUEST);
+        }
+
+    }
+}

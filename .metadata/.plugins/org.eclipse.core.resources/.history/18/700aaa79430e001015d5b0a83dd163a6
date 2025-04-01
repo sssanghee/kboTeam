@@ -1,0 +1,112 @@
+package com.kbo.project.config;
+
+import java.util.Collections;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+	
+	@Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//            .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+//                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+//            .csrf((csrf) -> csrf
+//                    .disable())//ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"))
+//            .headers((headers) -> headers
+//                    .addHeaderWriter(new XFrameOptionsHeaderWriter(
+//                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+//
+//        ;
+//        
+//        return http.build();
+	    	
+	    	http.cors(cors -> {
+                cors.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                    config.setAllowedMethods(Collections.singletonList("*"));
+                    config.setAllowCredentials(true);
+                    config.setAllowedHeaders(Collections.singletonList("*"));
+                    config.setMaxAge(3600L);
+                    return config;
+                });
+            }).csrf(csrf -> {
+                csrf.disable();
+            });
+
+	    	return http.build();
+    }
+    
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
+ // DB 드라이버 클래스 이름 (h2 사용 시 security 충돌 해결 위해)
+    @Value("${spring.datasource.driver-class-name}")
+    private String springDatasourceDriverClassName;
+
+    @Bean
+    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+        return new MvcRequestMatcher.Builder(introspector);
+    }
+
+    // custom Security Filter Manager 적용
+    // 추후 작성 예정
+    public static class CustomSecurityFilterManager
+            extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
+        
+        private final JwtAuthorizationFilter jwtAuthorizationFilter;
+
+        public CustomSecurityFilterManager(JwtAuthorizationFilter jwtAuthorizationFilter) {
+            this.jwtAuthorizationFilter = jwtAuthorizationFilter;
+        }
+
+        // jwt 필터를 UsernamePasswordAuthenticationFilter 전에 등록
+        @Override
+        public void configure(HttpSecurity http) {
+            http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

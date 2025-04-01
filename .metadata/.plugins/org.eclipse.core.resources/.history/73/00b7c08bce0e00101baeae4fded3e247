@@ -1,0 +1,5 @@
+package com.kbo.project.jwt.auth;
+
+public class JwtAuthenticationFilter {
+
+}

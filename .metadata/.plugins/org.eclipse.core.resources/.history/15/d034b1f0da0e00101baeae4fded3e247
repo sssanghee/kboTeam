@@ -1,0 +1,40 @@
+package com.kbo.project.user.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.kbo.project.user.domain.UserInfo;
+import com.kbo.project.user.dto.UserDto;
+import com.kbo.project.user.repository.UserRepository;
+import com.kbo.project.common.*;
+
+@Service
+public class UserService {
+	
+	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
+    PasswordEncoder passwordEncoder;
+
+	public boolean existIdCheck(String id) {
+		boolean existId = userRepository.existsById(id);
+		return existId;
+	}
+	
+    public void userSignUp(UserDto userDto) {
+        UserInfo user = new UserInfo();
+        String dateFormat = CommonUtils.getNow();
+        
+        user.setUserId(userDto.getUserId());
+        user.setUserName(userDto.getUserName());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setUserStatClCd("1");
+        user.setFrsRgtDtm(dateFormat);
+        user.setLstAltDtm(dateFormat);
+        user.setUserRole("1");
+        
+		userRepository.save(user);
+    }
+}

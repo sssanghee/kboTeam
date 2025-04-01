@@ -1,0 +1,28 @@
+package com.kbo.project.user;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+@Table(name="userinfo")
+public class UserInfo {
+
+	@Id
+	@Column(name = "USER_ID")
+    private String userId;
+	
+	@Column(name = "USER_NAME")
+    private String userName;
+	
+	@Column(name = "PASSWORD")
+    private String password;
+	
+	@Column(name = "MATE_STAT")
+	private String mateStat;
+}

@@ -1,0 +1,3 @@
+spring.application.name=kboProject
+
+spring.h2.console.path=/h2-console

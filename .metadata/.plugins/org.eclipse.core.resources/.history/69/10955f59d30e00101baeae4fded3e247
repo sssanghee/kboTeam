@@ -1,0 +1,5 @@
+package com.kbo.project.config;
+
+public class UserDetailService {
+
+}

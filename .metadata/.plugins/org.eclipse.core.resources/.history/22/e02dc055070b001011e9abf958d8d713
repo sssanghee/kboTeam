@@ -1,0 +1,5 @@
+package com.kbo.project.user;
+
+public class UserCreateForm {
+
+}
