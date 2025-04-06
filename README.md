@@ -1,7 +1,7 @@
 KBO관련 자체 프로젝트 제작중
 ( 서버는 스프링부트, 화면은 리액트 구현 중)
 
-- 로그인과 회원가입 ( 스프링시큐리티와 JWT로 관리)  (완료 2025.03.31 ~ 2025.04.02)
+- 로그인과 회원가입 ( 스프링시큐리티와 JWT로 관리) 
   ![로그인](https://github.com/user-attachments/assets/ba323278-e88d-4a30-ad35-53a7053b790d)
   ![회원가입](https://github.com/user-attachments/assets/efe1ae28-e798-413f-92bf-024f38f6173f)
   ![메인화면](https://github.com/user-attachments/assets/ade0c908-f0f3-4f3c-9a4a-51a981895a03)
