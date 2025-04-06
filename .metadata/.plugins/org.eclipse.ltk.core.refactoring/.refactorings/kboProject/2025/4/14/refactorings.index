@@ -1,3 +1,6 @@
 1743496134894	Delete element
 1743497456541	Move compilation unit
 1743519499605	Delete elements
+1743767310930	Rename type 'MainController'
+1743767339897	Rename type 'HomeController'
+1743767348388	Rename type 'HomeService'

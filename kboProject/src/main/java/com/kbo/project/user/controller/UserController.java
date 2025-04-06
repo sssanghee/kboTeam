@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,34 +23,51 @@ import com.kbo.project.user.dto.LoginReq;
 import com.kbo.project.user.dto.UserDto;
 import com.kbo.project.user.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/api")
 public class UserController {
 
 	@Autowired
 	UserService userService;
 
+	Logger log;
+	
 	/* 로그인 */
     @PostMapping("/user/login")
-    public ResponseEntity<String> login(@RequestBody LoginReq loginRequest) {
+    public ResponseEntity<String> login(@RequestBody LoginReq loginRequest,  HttpServletResponse response) {
         try {
-        	String token = userService.login(loginRequest);
-            return ResponseEntity.ok(token);
+        	userService.login(loginRequest, response);
+            return ResponseEntity.ok("로그인 성공");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
         }
     }
     
+    /* 로그아웃 */
+    @PostMapping("/user/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+    	// 액세스 토큰 삭제
+        try {
+        	userService.logout(request, response);
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch(Exception e) {
+        	log.info("로그아웃 실패 {}" + e);
+        }
+    }
+    
     /* 아이디 중복체크 */
 	@GetMapping("/user/idCheck")
-	public ResponseEntity<?> existIdCheck(@RequestParam("id") String id) {
+	public ResponseEntity<Object> existIdCheck(@RequestParam("id") String id) {
 		try {
 			boolean existId = userService.existIdCheck(id);
 			return new ResponseEntity<>(existId, HttpStatus.OK);
 		} catch(Exception e) {
-			System.out.println(e);
+			log.info("아이디 중복체크 {}" + e);
 			return new ResponseEntity<>("실패", HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -61,7 +79,7 @@ public class UserController {
         	userService.userSignUp(userDto);
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch(Exception e) {
-        	System.out.println(e);
+        	log.info("회원가입 실패 {}" + e);
         	return new ResponseEntity<>("실패", HttpStatus.BAD_REQUEST);
         }
 

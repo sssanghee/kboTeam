@@ -1,0 +1,28 @@
+package com.kbo.project.main.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.kbo.project.main.repository.TeamInfoRepository;
+
+@Service
+public class MainPageService {
+
+	@Autowired
+	TeamInfoRepository teamInfoRepository;
+	
+	public Map<String, Object> mainPage() {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<String, Object> teamList = new ArrayList<String, Object>();  
+		
+		teamList =  teamInfoRepository.findAll();
+		
+		
+		return resultMap;
+	}
+}

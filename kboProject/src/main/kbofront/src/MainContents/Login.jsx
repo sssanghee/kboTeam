@@ -3,6 +3,8 @@ import React, { useState} from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { API } from '../config';
 
+axios.defaults.withCredentials = true;
+
 const Login = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -17,9 +19,7 @@ const Login = () => {
       password: password,
     })
     .then((res) => {
-      localStorage.setItem('jwtToken', res.data);
-      localStorage.setItem('userId', userId);
-
+      console.log(res);
       navigate("/");
     })
     .catch((err) => {
@@ -32,7 +32,7 @@ const Login = () => {
     <div className='body'>
       <br/>
       <br/>
-      로그인화면
+      로그인
       <br/>
       <br/>
       <form className='login-form'>
@@ -59,7 +59,7 @@ const Login = () => {
         <br/>
         <button onClick={handleLogin}className='buttonStyle'>로그인</button>
         <p className="signup-link">
-          아직 회원이 아니신가요? <Link to="/signup">회원가입</Link>
+          아직 회원이 아니신가요?    <Link to="/signup">회원가입</Link>
         </p>
       </form>
     </div>

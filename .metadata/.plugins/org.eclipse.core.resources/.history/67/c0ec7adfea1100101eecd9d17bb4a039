@@ -1,0 +1,9 @@
+package com.kbo.project.main.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.kbo.project.user.domain.UserInfo;
+
+public interface TeamInfoRepository extends JpaRepository<TeamInfo, int>  {
+
+}

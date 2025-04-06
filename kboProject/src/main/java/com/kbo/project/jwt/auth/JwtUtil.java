@@ -75,4 +75,50 @@ public class JwtUtil {
     public interface ClaimsResolver<T> {
         T resolve(Claims claims);
     }
+    
+    
+    
+    // 리프레시 토큰 생성
+    public String generateRefreshToken(String username) {
+    	SecretKey key = getSecretKey(); // SecretKey 객체 생성
+    	
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7)) // 7일 유효
+                .signWith(key, SignatureAlgorithm.HS256)  // SecretKey 객체로 서명
+                .compact();
+    }
+    
+    // 리프레시 토큰을 사용하여 새로운 액세스 토큰을 생성
+    public String generateNewAccessToken(String refreshToken, String userId) {
+        try {
+            // 리프레시 토큰 검증
+        	Jwts.parserBuilder()
+        		.setSigningKey(getSecretKey())
+        		.build()
+        		.parseClaimsJws(refreshToken);
+        	
+            // 리프레시 토큰이 유효하면 새로운 액세스 토큰을 생성
+            return createAccessToken(userId);  // 새 액세스 토큰을 생성하는 메소드 호출
+        } catch (Exception e) {
+            // 토큰 검증 실패 시 예외 처리
+            throw new RuntimeException("리프레시 토큰 검증 실패", e);
+        }
+    }
+    
+ // 새로운 액세스 토큰 생성
+    private String createAccessToken(String userId) {
+    	SecretKey key = getSecretKey(); // SecretKey 객체 생성
+        long now = System.currentTimeMillis();
+        Date expiryDate = new Date(now + 1000 * 60 * 15);  // 15분 만료
+
+        // 새로운 액세스 토큰 생성
+        return Jwts.builder()
+            .setSubject(userId)  // 토큰의 주체 (사용자 ID 등)
+            .setIssuedAt(new Date(now))  // 토큰 발급 시간
+            .setExpiration(expiryDate)   // 토큰 만료 시간
+            .signWith(key, SignatureAlgorithm.HS256)  // SecretKey 객체로 서명
+            .compact();  // 토큰 생성
+    }    
 }

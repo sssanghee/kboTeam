@@ -80,7 +80,7 @@ const SignUp = () => {
 
     return (
         <div className='body'>
-        회원가입화면
+        회원가입
             <form className='signup-form'>
                 <div>
                     <input 

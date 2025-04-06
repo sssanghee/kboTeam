@@ -1,12 +1,12 @@
 .body {
     text-align: center;    
     min-height: 80vh;
-    padding-top:7%;
+    padding-top:5%;
 }
 
 .signup-form {
     text-align: left;
-    margin-left:40%
+    margin-left:45%
 
 }
 
@@ -24,9 +24,42 @@
 
 .buttonStyle {
     color: #ffffff;
-    background-color: #9d9d9d;
+    background-color: #002561;
     border: 1px;
     border-radius: 4px;
     font-size: 11px;
     padding: 4px;
+}
+
+.team-button-container {
+    display: flex;
+    flex-wrap: wrap; /* 버튼들이 넘치면 다음 줄로 넘어가게 함 */
+    gap: 10px; /* 버튼들 사이 간격 */
+    justify-content: center; /* 버튼들을 가로로 가운데 정렬 */
+    align-items: center; /* 버튼들을 세로로 가운데 정렬 (수직 정렬) */
+    text-align: center; /* 텍스트를 가운데 정렬 */
+  }
+  
+.team-button-container button {
+    width: 240px; /* 버튼의 너비를 설정 */
+    height: 120px; /* 버튼의 높이 설정 */
+    border: 0px;
+}
+
+.btnImage {
+        width: 100%; /* 이미지가 버튼 크기에 맞게 100%로 크기 조정 */
+        height: 100%; /* 이미지 높이도 100%로 설정 */
+        object-fit: cover; /* 이미지가 버튼 안에 들어가도록 비율 유지하며 크기 조절 */
+
+}
+
+.boardListTit {
+    float:left;
+    display:flex;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 70% 15% 15%;
+    /* > div {
+        margin-left:40px;
+    } */
 }
