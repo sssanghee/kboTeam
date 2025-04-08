@@ -41,8 +41,8 @@
   }
   
 .team-button-container button {
-    width: 240px; /* 버튼의 너비를 설정 */
-    height: 120px; /* 버튼의 높이 설정 */
+    width: 350px; /* 버튼의 너비를 설정 */
+    height: 140px; /* 버튼의 높이 설정 */
     border: 0px;
 }
 

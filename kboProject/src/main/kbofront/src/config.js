@@ -7,4 +7,11 @@ export const API = {
     LOGIN: `${BASE_URL}/user/login`,                    //로그인
     LOGOUT: `${BASE_URL}/user/logout`,                  //로그아웃
     MAIN: `${BASE_URL}/main`,                           //메인화면
+    TEAMPAGE: `${BASE_URL}/teamPage`,                           //메인화면
 }
+
+
+export const formatDate = (dateString) => {
+    // 예시: 20250406180700 -> 2025-04-06 18:07:00
+    return `${dateString.substring(0, 4)}-${dateString.substring(4, 6)}-${dateString.substring(6, 8)} ${dateString.substring(8, 10)}:${dateString.substring(10, 12)}:${dateString.substring(12, 14)}`;
+};

@@ -1,0 +1,5 @@
+package com.kbo.project.teampage.dto;
+
+public class BoardInfo {
+
+}

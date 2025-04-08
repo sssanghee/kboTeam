@@ -1,0 +1,45 @@
+package com.kbo.project.teampage.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import com.kbo.project.main.repository.BoardRepository;
+import com.kbo.project.teampage.domain.Board;
+import com.kbo.project.teampage.domain.TeamInfo;
+import com.kbo.project.teampage.repository.TeamInfoRepository;
+
+
+@Service
+public class TeamPageService {
+	@Autowired
+	TeamInfoRepository teamInfoRepository;
+
+	@Autowired
+	BoardRepository boardRepository;
+	
+	public Map<String, Object> teamPage() {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<TeamInfo> teamList = new ArrayList<TeamInfo>();  
+		List<Board> boardList = new ArrayList<Board>();
+		
+		Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Order.desc("boardLike")));
+		
+		teamList =  teamInfoRepository.findAllById();
+		boardList = boardRepository.findTop5ByOrderByBoardLikeDesc(pageable);
+		
+		
+		resultMap.put("teamList", teamList);
+		resultMap.put("boardList", boardList);
+		
+		return resultMap;
+	}
+	
+}

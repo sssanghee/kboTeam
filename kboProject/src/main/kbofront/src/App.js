@@ -33,6 +33,7 @@ import Footer from './Layouts/Footer';
 import MainContent from './MainContents/Main';
 import Login from './MainContents/Login';
 import SignUp from './MainContents/SignUp';
+import TeamInfo from './MainContents/TeamInfo';
 
 function App() {
   // const [userId, setUserId] = useState("");
@@ -57,6 +58,7 @@ function App() {
           <Route path="/" element={<MainContent/>}/>
           <Route path="/login" element={<Login />}/>
           <Route path="/signup" element={<SignUp />}/>
+          <Route path="/teamInfo" element={<TeamInfo />}/>
         </Routes>
         <Footer/>
       </BrowserRouter>

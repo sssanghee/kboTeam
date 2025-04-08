@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.kbo.project.jwt.auth.JwtUtil;
+import com.kbo.project.main.controller.MainPageController;
 import com.kbo.project.user.dto.LoginReq;
 import com.kbo.project.user.dto.UserDto;
 import com.kbo.project.user.service.UserService;
@@ -35,7 +37,8 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	Logger log;
+
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
 	/* 로그인 */
     @PostMapping("/user/login")
@@ -56,7 +59,7 @@ public class UserController {
         	userService.logout(request, response);
             response.setStatus(HttpServletResponse.SC_OK);
         } catch(Exception e) {
-        	log.info("로그아웃 실패 {}" + e);
+        	log.info("로그아웃 실패 {}" + e.getMessage());
         }
     }
     
@@ -67,7 +70,7 @@ public class UserController {
 			boolean existId = userService.existIdCheck(id);
 			return new ResponseEntity<>(existId, HttpStatus.OK);
 		} catch(Exception e) {
-			log.info("아이디 중복체크 {}" + e);
+			log.info("아이디 중복체크 {}" + e.getMessage());
 			return new ResponseEntity<>("실패", HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -79,7 +82,7 @@ public class UserController {
         	userService.userSignUp(userDto);
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch(Exception e) {
-        	log.info("회원가입 실패 {}" + e);
+        	log.info("회원가입 실패 {}" + e.getMessage());
         	return new ResponseEntity<>("실패", HttpStatus.BAD_REQUEST);
         }
 

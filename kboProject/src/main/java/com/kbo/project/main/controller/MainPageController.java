@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kbo.project.main.service.MainPageService;
+import com.kbo.project.teampage.controller.TeamPageController;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -20,8 +22,9 @@ public class MainPageController {
 	
 	@Autowired
 	MainPageService mainPageService;
-	
-	Logger log;
+
+    private static final Logger log = LoggerFactory.getLogger(MainPageController.class);
+    
 	@GetMapping("/main")
 	public ResponseEntity<Map<String, Object>> mainPage() {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -31,7 +34,7 @@ public class MainPageController {
 			return ResponseEntity.ok(resultMap);
 			
 		} catch(Exception e) {
-			log.info("메인페이지 get실패 {}" + e);
+			log.info("메인페이지 get실패 {}" + e.getMessage());
 			return (ResponseEntity<Map<String, Object>>) ResponseEntity.status(500);
 			
 		}

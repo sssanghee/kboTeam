@@ -28,6 +28,15 @@ public class TeamInfo {
 	@Column(name = "SPONSOR")
     private String sponsor;	
 	
+	@Column(name = "FOUNDED")
+    private String founded;	
+	
+	@Column(name = "STADIUM")
+    private String stadium;	
+	
+	@Column(name = "HEAD_COACH")
+    private String headCoach;	
+	
 	@Column(name = "MATE_STAT_CL_CD")
     private String mateStatClCd;
 }

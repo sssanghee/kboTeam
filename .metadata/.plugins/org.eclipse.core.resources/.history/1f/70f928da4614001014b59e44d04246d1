@@ -1,0 +1,14 @@
+package com.kbo.project.teampage.repository;
+
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.kbo.project.main.domain.Board;
+
+public interface BoardRepository  extends JpaRepository<Board, Long>{
+	@Query("SELECT b FROM Board b WHERE b.teamNo = :teamNo ORDER BY b.boardLike DESC")
+	List<Board> findTop5ByIdOrderByBoardLikeDesc(Pageable pageable, int teamNo);
+}
