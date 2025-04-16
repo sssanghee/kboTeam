@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.kbo.project.dto.LoginReq;
+import com.kbo.project.dto.UserDto;
 import com.kbo.project.jwt.auth.JwtUtil;
 import com.kbo.project.main.controller.MainPageController;
-import com.kbo.project.user.dto.LoginReq;
-import com.kbo.project.user.dto.UserDto;
 import com.kbo.project.user.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,7 +47,7 @@ public class UserController {
         	userService.login(loginRequest, response);
             return ResponseEntity.ok("로그인 성공");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+        	throw new RuntimeException("로그인 실패", e);
         }
     }
     
@@ -60,6 +60,7 @@ public class UserController {
             response.setStatus(HttpServletResponse.SC_OK);
         } catch(Exception e) {
         	log.info("로그아웃 실패 {}" + e.getMessage());
+        	throw new RuntimeException("로그아웃 실패", e);
         }
     }
     
@@ -71,7 +72,7 @@ public class UserController {
 			return new ResponseEntity<>(existId, HttpStatus.OK);
 		} catch(Exception e) {
 			log.info("아이디 중복체크 {}" + e.getMessage());
-			return new ResponseEntity<>("실패", HttpStatus.BAD_REQUEST);
+			throw new RuntimeException("아이디 중복체크 실패", e);
 		}
 	}
 	
@@ -83,7 +84,7 @@ public class UserController {
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch(Exception e) {
         	log.info("회원가입 실패 {}" + e.getMessage());
-        	return new ResponseEntity<>("실패", HttpStatus.BAD_REQUEST);
+        	throw new RuntimeException("회원가입 실패", e);
         }
 
     }

@@ -11,6 +11,7 @@ const Login = () => {
   const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
   const navigate = useNavigate();
 
+  //로그인 버튼 클릭 이벤트
   const handleLogin = async (event) => {
     event.preventDefault();
 

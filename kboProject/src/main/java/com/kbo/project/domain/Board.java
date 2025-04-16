@@ -1,0 +1,39 @@
+package com.kbo.project.domain;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+@Table(name="board")
+public class Board {
+	@Id
+	@Column(name = "BOARD_NO")
+    private long boardNo;
+	
+	@Column(name = "BOARD_TITLE")
+    private String boardTitle;
+	
+	@Column(name = "BOARD_CONTENT")
+    private String boardContent;
+	
+	@Column(name = "USER_ID")
+    private String userId;
+	
+	@Column(name = "TEAM_NO")
+    private String teamNo;
+	
+	@Column(name = "BOARD_LIKE")
+    private long boardLike;
+	
+	@Column(name = "FRS_RGT_DTM")
+    private String frsRgtDtm;
+	
+	@Column(name = "LST_ALT_DTM")
+    private String lstAltDtm;
+}

@@ -35,8 +35,7 @@ public class MainPageController {
 			
 		} catch(Exception e) {
 			log.info("메인페이지 get실패 {}" + e.getMessage());
-			return (ResponseEntity<Map<String, Object>>) ResponseEntity.status(500);
-			
+			throw new RuntimeException("메인가져오기 실패", e);
 		}
 	}
 	

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { API, formatDate } from '../config';
 import { DataGrid } from '@mui/x-data-grid';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
@@ -34,6 +34,7 @@ const teamLogos = {
 };
 
 const TeamInfo = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const param = location.state; // 전달된 데이터
     const [data, setData] = useState([]);
@@ -41,12 +42,13 @@ const TeamInfo = () => {
     const [rows, setRows] = useState([]);
 
     const columns = [
-        { field: 'boardNo', headerName: '게시글번호', width: 200 },
-        { field: 'boardTitle', headerName: '제목', width: 1000 },
-        { field: 'userId', headerName: '작성자', type: 'text', width: 300 },
-        { field: 'boardDate', headerName: '작성일시', width: 300 },
+        { field: 'boardNo', headerName: '게시글번호', width: 100 },
+        { field: 'boardTitle', headerName: '제목', width: 800 },
+        { field: 'userId', headerName: '작성자', type: 'text', width: 200 },
+        { field: 'boardDate', headerName: '작성일시', width: 200 },
     ];
 
+    //로드시 데이터 가져오기
     useEffect(() => {
         axios.get(`${API.TEAMPAGE}`, {
             params: {
@@ -62,13 +64,21 @@ const TeamInfo = () => {
                 id: item.boardNo,
                 boardDate: formatDate(item.frsRgtDtm)
             }));
-            console.log(rowsWithId);
             setRows(rowsWithId);
         })
         .catch((err) => {
             console.log(err);
         })
     }, []);
+
+    // 게시글 클릭 시, 이벤트
+    const GridCellClick = (e) => {
+        console.log(e.row);
+        navigate('/boardView', {state: {
+            boardNo : e.row.boardNo,
+            teamNo : data.teamInfo.teamNo,
+        }});
+    };
 
     if(!data.teamInfo){
         return(
@@ -128,7 +138,7 @@ const TeamInfo = () => {
             {
                 data.boardList ?
                 <div style={{ padding: '0 20px' }}>
-                    <DataGrid rows={rows} columns={columns} hideFooter />
+                    <DataGrid rows={rows} columns={columns} hideFooter onCellClick={GridCellClick}/>
                 </div>
                 :
                 <div>Loading.</div>

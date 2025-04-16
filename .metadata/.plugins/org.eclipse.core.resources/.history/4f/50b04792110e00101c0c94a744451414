@@ -1,5 +1,0 @@
-package com.kbo.project.auth;
-
-public class CustomUserDetails {
-
-}

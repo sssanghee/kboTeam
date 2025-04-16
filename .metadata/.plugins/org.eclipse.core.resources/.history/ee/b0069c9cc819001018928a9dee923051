@@ -1,0 +1,49 @@
+package com.kbo.project.board.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.kbo.project.board.service.BoardService;
+import com.kbo.project.teampage.controller.TeamPageController;
+
+@RestController
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@RequestMapping("/api")
+public class BoardController {
+	@Autowired
+	BoardService boardService;
+
+    private static final Logger log = LoggerFactory.getLogger(TeamPageController.class);
+    
+    @GetMapping("/boardDetail")
+	public ResponseEntity<?> boardDetail(@RequestParam("boardNo") long boardNo){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+			resultMap.put("boardDetail", boardService.boardDetail(boardNo).get("boardDetail"));
+			return ResponseEntity.ok(resultMap);
+			
+		} catch(Exception e) {
+			log.info("게시판 상세보기에러발생!{}", e);
+			return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+		}
+	}
+    
+    @PostMapping("/registComment")
+    public void registComment(@RequestParam("commentContent") String commentContent){
+    	System.out.println(commentContent);
+    }
+	
+}

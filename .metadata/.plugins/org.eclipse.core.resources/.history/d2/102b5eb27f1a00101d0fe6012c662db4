@@ -1,0 +1,5 @@
+package com.kbo.project.dto;
+
+public class ErrorResponse {
+
+}

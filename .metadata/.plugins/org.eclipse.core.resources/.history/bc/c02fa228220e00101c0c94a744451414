@@ -1,5 +1,0 @@
-package com.kbo.project.jwt;
-
-public class JwtTokenProvider {
-
-}

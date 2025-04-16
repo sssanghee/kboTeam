@@ -1,5 +1,0 @@
-package com.kbo.project.teampage.repository;
-
-public interface BoardRepository {
-
-}

@@ -15,6 +15,7 @@ const SignUp = () => {
     const navigate = useNavigate();
     const refId = useRef();
     
+    // 아이디 중복체크 버튼 클릭 이벤트
     const existIdCheck = (e) => {
         e.preventDefault();
 
@@ -36,6 +37,7 @@ const SignUp = () => {
         .catch((err) => {console.log(err)})
     };
     
+    // 패스워드 두번째 확인 체크이벤트
     const password2Check = (e) => {
         setPassword2(e.target.value);
 
@@ -48,6 +50,7 @@ const SignUp = () => {
         }
     };
 
+    // 회원가입버튼 클릭 이벤트
     const handleSignUp = async (event) => {
         if(eqaulPassword && idCheck && password1 && userName) {
             event.preventDefault();

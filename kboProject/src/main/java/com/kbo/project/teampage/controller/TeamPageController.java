@@ -37,7 +37,7 @@ public class TeamPageController {
 			
 		} catch(Exception e) {
 			log.info("팀페이지 get 실패 {}" + e.getMessage());
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			throw new RuntimeException("팀페이지 가져오기 실패", e);
 		}
 	}
 }

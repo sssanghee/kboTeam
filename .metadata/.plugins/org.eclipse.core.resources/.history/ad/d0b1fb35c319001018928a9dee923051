@@ -1,0 +1,5 @@
+package com.kbo.project.board.controller;
+
+public class BoardController {
+
+}

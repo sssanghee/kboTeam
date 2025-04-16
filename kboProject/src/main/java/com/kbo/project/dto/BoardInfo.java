@@ -1,0 +1,20 @@
+package com.kbo.project.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class BoardInfo {
+	private long boardNo;
+    private String boardTitle;
+    private String userId;
+    private String frsRgtDtm;
+    
+    public BoardInfo(Long boardNo, String boardTitle, String userId, String frsRgtDtm) {
+        this.boardNo = boardNo;
+        this.boardTitle = boardTitle;
+        this.userId = userId;
+        this.frsRgtDtm = frsRgtDtm;
+    }
+}

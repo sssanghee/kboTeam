@@ -1,0 +1,5 @@
+package com.kbo.project.domain;
+
+public class Comment {
+
+}

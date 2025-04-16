@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.kbo.project.user.domain.UserInfo;
-import com.kbo.project.user.repository.UserRepository;
+import com.kbo.project.domain.UserInfo;
+import com.kbo.project.respository.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

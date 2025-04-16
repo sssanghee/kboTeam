@@ -39,12 +39,13 @@ const MainContent = () => {
   const [rows, setRows] = useState([]);
 
   const columns = [
-    { field: 'boardNo', headerName: '게시글번호', width: 200 },
-    { field: 'boardTitle', headerName: '제목', width: 1000 },
-    { field: 'userId', headerName: '작성자', type: 'text', width: 300 },
-    { field: 'boardDate', headerName: '작성일시', width: 300 },
+    { field: 'boardNo', headerName: '게시글번호', width: 100 },
+    { field: 'boardTitle', headerName: '제목', width: 800 },
+    { field: 'userId', headerName: '작성자', type: 'text', width: 200 },
+    { field: 'boardDate', headerName: '작성일시', width: 200 },
   ];
 
+  //로드시 데이터가져오기
   useEffect(() => {
     axios.get(`${API.MAIN}`, {
     })
@@ -60,6 +61,7 @@ const MainContent = () => {
     .catch((err) => {console.log(err)})
   }, []); //빈배열을 넣으면 첫 랜더링시에만 진행    
 
+  //로고 클릭 시, 이벤트
   const logoClick = (e) => {
     const data = {teamNo: e.target.id};
     navigate('/teamInfo', {state: data});

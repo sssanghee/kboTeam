@@ -1,0 +1,43 @@
+package com.kbo.project.board.service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.kbo.project.jwt.auth.JwtUtil;
+import com.kbo.project.respository.BoardRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@Service
+public class BoardService {
+
+	@Autowired
+	BoardRepository boardRepository;
+	
+	@Autowired
+	JwtUtil jwtUtil;
+	
+	public Map<String, Object> boardDetail(long boardNo) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap.put("boardDetail", boardRepository.findById(boardNo));
+		
+		return resultMap;
+	}
+
+	public String registComment(String comment, HttpServletRequest request, HttpServletResponse response) {
+		String result = jwtUtil.validateTokenLogic(request, response);
+		if (!result.startsWith("Success")) {
+		    return "Validation Fail";
+		}
+		
+		return "Success";
+	}
+}
+//if (!result.startsWith("Success")) {
+//    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+//}

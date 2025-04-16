@@ -1,0 +1,9 @@
+package com.kbo.project.respository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.kbo.project.domain.UserInfo;
+
+public interface UserRepository extends JpaRepository<UserInfo, String> {
+
+}

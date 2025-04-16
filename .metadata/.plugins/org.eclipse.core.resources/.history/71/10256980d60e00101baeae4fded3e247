@@ -1,5 +1,0 @@
-package com.kbo.project.user.dto;
-
-public class LoginReq {
-
-}

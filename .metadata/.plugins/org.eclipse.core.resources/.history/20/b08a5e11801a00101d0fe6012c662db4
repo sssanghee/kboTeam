@@ -1,0 +1,43 @@
+package com.kbo.project.teampage.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.kbo.project.teampage.service.TeamPageService;
+
+@RestController
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@RequestMapping("/api")
+public class TeamPageController {
+	@Autowired
+	TeamPageService teamPageService;
+	
+    private static final Logger log = LoggerFactory.getLogger(TeamPageController.class);
+	
+	@GetMapping("/teamPage")
+	public ResponseEntity<Map<String, Object>> teamPage(@RequestParam("teamNo") int teamNo) {
+		System.out.println(teamNo);
+		System.out.println("컨트롤러");
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+			resultMap.put("data", teamPageService.teamPage(teamNo));
+			return ResponseEntity.ok(resultMap);
+			
+		} catch(Exception e) {
+			log.info("팀페이지 get 실패 {}" + e.getMessage());
+			throw new RuntimeException("게시글 상세 조회 중 오류", e);
+		}
+	}
+}

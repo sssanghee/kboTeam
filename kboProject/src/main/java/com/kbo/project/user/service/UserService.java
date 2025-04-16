@@ -7,17 +7,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.kbo.project.user.domain.UserInfo;
-import com.kbo.project.user.dto.LoginReq;
-import com.kbo.project.user.dto.UserDto;
-import com.kbo.project.user.repository.UserRepository;
-
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import com.kbo.project.common.*;
+import com.kbo.project.domain.UserInfo;
+import com.kbo.project.dto.LoginReq;
+import com.kbo.project.dto.UserDto;
 import com.kbo.project.jwt.auth.JwtUtil;
+import com.kbo.project.respository.UserRepository;
 
 @Service
 public class UserService {

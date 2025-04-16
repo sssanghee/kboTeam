@@ -7,7 +7,10 @@ export const API = {
     LOGIN: `${BASE_URL}/user/login`,                    //로그인
     LOGOUT: `${BASE_URL}/user/logout`,                  //로그아웃
     MAIN: `${BASE_URL}/main`,                           //메인화면
-    TEAMPAGE: `${BASE_URL}/teamPage`,                           //메인화면
+    TEAMPAGE: `${BASE_URL}/teamPage`,                   //메인화면
+    BOAREDETAIL: `${BASE_URL}/boardDetail`,             //게시판 상세화면
+    REGISTCOMMENT: `${BASE_URL}/registComment`,         //댓글 등록
+    GETCOMMENT: `${BASE_URL}/getComments`,               //댓글 조회
 }
 
 

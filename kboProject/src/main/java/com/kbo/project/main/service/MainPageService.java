@@ -12,10 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.kbo.project.main.domain.Board;
-import com.kbo.project.main.domain.TeamInfo;
-import com.kbo.project.main.repository.BoardRepository;
-import com.kbo.project.main.repository.TeamInfoRepository;
+import com.kbo.project.domain.Board;
+import com.kbo.project.domain.TeamInfo;
+import com.kbo.project.respository.BoardRepository;
+import com.kbo.project.respository.TeamInfoRepository;
 
 @Service
 public class MainPageService {
