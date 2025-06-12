@@ -1,5 +1,0 @@
-package com.kbo.project.respository;
-
-public interface CommentRepository {
-
-}

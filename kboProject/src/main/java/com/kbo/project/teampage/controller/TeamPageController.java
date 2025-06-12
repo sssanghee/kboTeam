@@ -27,8 +27,6 @@ public class TeamPageController {
 	
 	@GetMapping("/teamPage")
 	public ResponseEntity<Map<String, Object>> teamPage(@RequestParam("teamNo") int teamNo) {
-		System.out.println(teamNo);
-		System.out.println("컨트롤러");
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		try {

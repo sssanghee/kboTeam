@@ -108,7 +108,9 @@ const BoardView = () => {
                                 key={el.commentNo}
                                 author={el.userId}
                                 content={el.commentContent}
+                                commentLike={el.commentLike}
                                 time={commentTime}
+                                data={el}
                             />
                         );
                     })

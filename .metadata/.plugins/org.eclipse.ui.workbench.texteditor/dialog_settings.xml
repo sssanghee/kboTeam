@@ -8,6 +8,8 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="System."/>
+			<item value="System"/>
 			<item value="System.out."/>
 			<item value="generateNewAccessToken"/>
 			<item value="extractUserName"/>
@@ -21,8 +23,6 @@
 			<item value="getSecretKey()"/>
 			<item value="validateToken"/>
 			<item value="setAuthenticated"/>
-			<item value="inputPassword"/>
-			<item value="AuthController"/>
 		</list>
 		<list key="replacehistory">
 		</list>

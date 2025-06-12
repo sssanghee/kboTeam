@@ -1,0 +1,23 @@
+package com.kbo.project.elasticsearch.controller;
+
+import com.kbo.project.elasticsearch.service.ElasticSearchService;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.List;
+
+@RestController
+@RequestMapping("/es")
+public class ElasticSearchController {
+
+    private final ElasticSearchService service;
+
+    public ElasticSearchController(ElasticSearchService service) {
+        this.service = service;
+    }
+
+    @GetMapping("/search")
+    public List<Object> search(@RequestParam String keyword) throws IOException {
+        return service.searchByKeyword(keyword);
+    }
+}

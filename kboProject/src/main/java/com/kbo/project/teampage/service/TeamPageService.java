@@ -27,7 +27,6 @@ public class TeamPageService {
 	BoardRepository boardRepository;
 	
 	public Map<String, Object> teamPage(int teamNo) {
-		System.out.println("서비스");
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		Optional<TeamInfo> teamInfo = Optional.empty();  

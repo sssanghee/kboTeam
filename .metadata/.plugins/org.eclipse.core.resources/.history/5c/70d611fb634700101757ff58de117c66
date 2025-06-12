@@ -1,0 +1,5 @@
+package com.kbo.project.elasticsearch.service;
+
+public class ElasticSearchService {
+
+}

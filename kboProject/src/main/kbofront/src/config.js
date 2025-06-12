@@ -11,6 +11,8 @@ export const API = {
     BOAREDETAIL: `${BASE_URL}/boardDetail`,             //게시판 상세화면
     REGISTCOMMENT: `${BASE_URL}/registComment`,         //댓글 등록
     GETCOMMENT: `${BASE_URL}/getComments`,               //댓글 조회
+    UPDATECOMMENTLIKE: `${BASE_URL}/updateCommentLike`, //댓글 좋아요
+    ESSEARCH: `${BASE_URL}/esSearch`,                   //엘라스틱서치 조회
 }
 
 

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kbo.project.board.service.BoardService;
 import com.kbo.project.domain.Comment;
 import com.kbo.project.dto.RegistComment;
+import com.kbo.project.dto.UpdateCommentLike;
 import com.kbo.project.teampage.controller.TeamPageController;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -69,7 +70,6 @@ public class BoardController {
     @GetMapping("/getComments")
     public ResponseEntity<Map<String, Object>> getComments(@RequestParam("boardNo") long boardNo) {
     	Map<String, Object> resultList = new HashMap<String, Object>();
-    	System.out.println("HI");
     	try {
     		resultList.put("commentList", boardService.getComments(boardNo).get("resultList"));
     		
@@ -77,6 +77,23 @@ public class BoardController {
     	} catch(Exception e) {
     		log.info("댓글 조회 실패 {}", e);
     		throw new RuntimeException("댓글 조회 실패", e);
+    	}
+    }    
+    
+    @PostMapping("/updateCommentLike")
+    public ResponseEntity<?> updateCommentLike(@RequestBody UpdateCommentLike updateCommentLike, HttpServletRequest request, HttpServletResponse response){
+    	try {
+    		int result = boardService.updateCommentLike(updateCommentLike, request, response);
+    		
+    		if(result == -1) {
+    			return new ResponseEntity<>("토큰없음", HttpStatus.UNAUTHORIZED);
+    		} else {
+    			return ResponseEntity.ok(result);
+    		}
+    		
+    	} catch(Exception e) {
+    		log.info("댓글등록 실패 {}", e);
+    		throw new RuntimeException("댓글 등록 실패", e);
     	}
     }
 }

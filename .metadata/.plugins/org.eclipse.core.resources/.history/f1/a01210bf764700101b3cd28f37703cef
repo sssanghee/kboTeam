@@ -1,0 +1,31 @@
+package com.kbo.project.elasticsearch.controller;
+
+import com.kbo.project.elasticsearch.service.ElasticSearchService;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@RequestMapping("/api")
+public class ElasticSearchController {
+
+    private final ElasticSearchService elasticSearchService;
+
+    public ElasticSearchController(ElasticSearchService elasticSearchService) {
+        this.elasticSearchService = elasticSearchService;
+    }
+
+    @GetMapping("/esSearch")
+    public List<Map<String, Object>> search(@RequestParam String keyWord) throws IOException {
+        System.out.println("HI esSearch Controller");
+    	return elasticSearchService.searchByKeyword(keyWord);
+    }
+}

@@ -1,0 +1,40 @@
+package com.kbo.project.elasticsearch.service;
+
+
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class ElasticSearchService {
+
+    private final ElasticsearchClient client;
+
+    public ElasticSearchService(ElasticsearchClient client) {
+        this.client = client;
+    }
+
+    public List<Object> searchByKeyword(String keyword) throws IOException {
+        SearchResponse<Object> response = client.search(s -> s
+                        .index("test_index")
+                        .query(q -> q
+                                .match(m -> m
+                                        .field("board_title")
+                                        .query(keyword)
+                                )
+                        ),
+                Object.class
+        );
+
+        return response.hits().hits().stream()
+                .map(Hit::source)
+                .collect(Collectors.toList());
+    }
+}

@@ -37,6 +37,7 @@ const MainContent = () => {
   const [data, setData] = useState({});
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
+  const [keyWord, setKeyWord] = useState();
 
   const columns = [
     { field: 'boardNo', headerName: '게시글번호', width: 100 },
@@ -67,11 +68,28 @@ const MainContent = () => {
     navigate('/teamInfo', {state: data});
   };
 
+  //엘라스틱서치 조회
+  const esSearch = (e) => {
+    console.log(keyWord);
+    
+    axios.get(`${API.ESSEARCH}`, {
+      params: {
+        keyWord: keyWord
+      }
+    })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  };
+
   return (
     <div className="body">
       <div className='searchArea'>
-        <input style={{"width":"50%"}}/>
-        <button className='buttonStyle' style={{"marginLeft":"20px"}}>검색</button>
+        <input style={{"width":"50%"}} onChange={(e) => setKeyWord(e.target.value)}/>
+        <button className='buttonStyle' style={{"marginLeft":"20px"}} onClick={esSearch}>검색</button>
       </div>
       <br/>
       <div className='team-button-container'>

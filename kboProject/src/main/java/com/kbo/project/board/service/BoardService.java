@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.kbo.project.common.CommonUtils;
 import com.kbo.project.domain.Comment;
 import com.kbo.project.dto.RegistComment;
+import com.kbo.project.dto.UpdateCommentLike;
 import com.kbo.project.jwt.auth.JwtUtil;
 import com.kbo.project.respository.BoardRepository;
 import com.kbo.project.respository.CommentRepository;
@@ -45,7 +47,6 @@ public class BoardService {
 		Comment commentDomain = new Comment();
 		
 		String result = jwtUtil.validateTokenLogic(request, response);
-		System.out.println(result);
 		
 		if (!result.startsWith("Success")) {
 		    return "Validation Fail";
@@ -56,7 +57,7 @@ public class BoardService {
 				userId = cookie.getValue().toString();
 			}
 		}
-		System.out.println(userId);
+		
         String dateFormat = CommonUtils.getNow();
         
 		commentDomain.setUserId(userId);
@@ -77,5 +78,17 @@ public class BoardService {
 		resultMap.put("resultList", commentRepository.findAllByBoardNoOrderByDateDesc(boardNo));
 		
 		return resultMap;
+	}
+	
+	public int updateCommentLike(UpdateCommentLike updateCommentLike, HttpServletRequest request, HttpServletResponse response) {
+		String result = jwtUtil.validateTokenLogic(request, response);
+		
+		if (!result.startsWith("Success")) {
+		    return -1;
+		}
+		
+		commentRepository.updateCommentLike(updateCommentLike.getCommentNo(), updateCommentLike.getLike());
+		Comment comment = commentRepository.findById(updateCommentLike.getCommentNo()).orElse(null);
+	    return comment != null ? comment.getCommentLike() : 0;
 	}
 }
